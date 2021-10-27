@@ -33,9 +33,12 @@
 #ifndef GBINDER_LOG_H
 #define GBINDER_LOG_H
 
+#define GUTIL_LOG_VERBOSE 1
+
 #include "gbinder_types_p.h"
 
 #define GLOG_MODULE_NAME GBINDER_LOG_MODULE
+#define DEBUG 1
 #include <gutil_log.h>
 
 /* Declared for unit tests */

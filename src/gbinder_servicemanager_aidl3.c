@@ -140,14 +140,46 @@ gbinder_servicemanager_aidl3_list(
 }
 
 static
+GBinderRemoteObject*
+gbinder_servicemanager_aidl3_get_service(
+    GBinderServiceManager* self,
+    const char* name,
+    int* status,
+    const GBinderIpcSyncApi* api)
+{
+    GVERBOSE("getting aldi3 service %s", name);
+    GBinderRemoteObject* obj;
+    GBinderRemoteReply* reply;
+    GBinderLocalRequest* req = gbinder_client_new_request(self->client);
+
+    gbinder_local_request_append_string16(req, name);
+    reply = gbinder_client_transact_sync_reply2(self->client,
+        GET_SERVICE_TRANSACTION, req, status, api);
+
+    GBinderReader reader;
+    gbinder_remote_reply_init_reader(reply, &reader);
+    //discard binder stability byte
+    gint32 stability;
+    gbinder_reader_read_int32(&reader, &stability);
+    obj = gbinder_reader_read_object(&reader);
+
+    gbinder_remote_reply_unref(reply);
+    gbinder_local_request_unref(req);
+    return obj;
+}
+
+static
 void
 gbinder_servicemanager_aidl3_class_init(
     GBinderServiceManagerAidl3Class* cls)
 {
     GBinderServiceManagerClass* manager = GBINDER_SERVICEMANAGER_CLASS(cls);
+    
     cls->list_services_req = gbinder_servicemanager_aidl3_list_services_req;
     cls->add_service_req = gbinder_servicemanager_aidl3_add_service_req;
+
     manager->list = gbinder_servicemanager_aidl3_list;
+    manager->get_service = gbinder_servicemanager_aidl3_get_service;
 }
 
 /*

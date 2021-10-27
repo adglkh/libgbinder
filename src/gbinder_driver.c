@@ -478,7 +478,7 @@ gbinder_driver_reply_data(
             offsets, &offsets_buf);
     }
 
-#if 0 /* GUTIL_LOG_VERBOSE */
+#if GUTIL_LOG_VERBOSE
     if (offsets && offsets->count) {
         gbinder_driver_verbose_dump('<', (uintptr_t)offsets_buf,
             offsets->count * io->pointer_size);
@@ -1245,7 +1245,7 @@ gbinder_driver_transact(
             data->bytes, flags, offsets, &offsets_buf);
     }
 
-#if 0 /* GUTIL_LOG_VERBOSE */
+#if GUTIL_LOG_VERBOSE 
     if (offsets && offsets->count) {
         gbinder_driver_verbose_dump('<', (uintptr_t)offsets_buf,
             offsets->count * io->pointer_size);

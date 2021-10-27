@@ -200,7 +200,7 @@ gbinder_rpc_protocol_aidl3_read_rpc_header(
     char** iface)
 {
     if (txcode > GBINDER_TRANSACTION(0,0,0)) {
-        iface = NULL;
+        *iface = NULL;
     } else if (gbinder_reader_read_int32(reader, NULL)) {
         gbinder_reader_read_int32(reader, NULL);
         gbinder_reader_read_int32(reader, NULL);
